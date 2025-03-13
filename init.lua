@@ -123,9 +123,11 @@ vim.api.nvim_create_autocmd({ 'BufWritePost', 'BufReadPost', 'InsertLeave' }, {
     require('lint').try_lint()
   end,
 })
-
+-- /Users/401725/.config/nvim/pack/nvim-tree/start/lua
+-- '/home/joel/.config/nvim/pack/treesitter/start/lua/nvim-treesitter.lua'
+-- package.path = '/home/joel/.config/nvim/pack/treesitter/nvim-treesitter/lua/?.lua;' .. package.path
 -- TreeSitter for highlights. Can do folding and indents too
-package.path = '/home/joel/.config/nvim/pack/treesitter/nvim-treesitter/lua/?.lua;' .. package.path
+package.path = '/Users/401725/.config/nvim/pack/nvim-tree/start/lua/?.lua;' .. package.path
 require('nvim-treesitter').setup {
   -- A list of parser names, or "all" (the listed parsers MUST always be installed)
   ensure_installed = { 'c', 'lua', 'vim', 'vimdoc', 'query', 'markdown', 'markdown_inline' },
