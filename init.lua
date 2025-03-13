@@ -218,6 +218,18 @@ require('lspconfig').lua_ls.setup {}
 require('lspconfig').pylsp.setup{}
 require('lspconfig').clangd.setup{}
 
+vim.keymap.set('n', '<leader>td', "<cmd>lua vim.diagnostic.open_float()<CR>", { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>ts', "<cmd>lua vim.diagnostic.show()<CR>", { noremap = true, silent = true })
+
+vim.diagnostic.config({
+    virtual_text = true,
+    signs = true,
+    update_in_insert = true,      
+    underline = true,
+    severity_sort = false,
+    float = true,
+})
+
 -- File Tree
 require('nvim-tree').setup()
 vim.keymap.set('n', '<leader>ot', '<cmd>NvimTreeToggle<CR>', { noremap = true, silent = true })
