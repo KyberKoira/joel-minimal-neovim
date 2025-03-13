@@ -22,6 +22,3 @@
 [submodule "minipairs"]
         path = pack/minipairs/start/mini.pairs
         url = https://github.com/echasnovski/mini.pairs 
-[submodule "pack/nvim-tree/start"]
-	path = pack/nvim-tree/start
-	url = https://github.com/nvim-treesitter/nvim-treesitter
