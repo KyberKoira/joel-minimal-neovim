@@ -215,11 +215,11 @@ require('mini.animate').setup()
 
 -- LSP
 require('lspconfig').lua_ls.setup {}
+require('lspconfig').pylsp.setup{}
 
 -- File Tree
 require('nvim-tree').setup()
 vim.keymap.set('n', '<leader>ot', '<cmd>NvimTreeToggle<CR>', { noremap = true, silent = true })
-
 
 -- Terminal
 local term_buf = nil
