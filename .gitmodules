@@ -25,6 +25,3 @@
 [submodule "pack/nvim-tree/start"]
 	path = pack/nvim-tree/start
 	url = https://github.com/nvim-treesitter/nvim-treesitter
-[submodule "pack/which-key/start"]
-	path = pack/which-key/start
-	url = https://github.com/folke/which-key.nvim
