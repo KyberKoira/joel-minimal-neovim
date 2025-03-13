@@ -214,8 +214,9 @@ require('lualine').setup {
 require('mini.animate').setup()
 
 -- LSP
---require('lspconfig').lua_ls.setup {}
---require('lspconfig').pylsp.setup{}
+require('lspconfig').lua_ls.setup {}
+require('lspconfig').pylsp.setup{}
+require('lspconfig').clangd.setup{}
 
 -- File Tree
 require('nvim-tree').setup()
