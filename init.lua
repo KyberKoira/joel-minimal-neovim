@@ -91,7 +91,7 @@ require('conform').setup {
   formatters_by_ft = {
     lua = { 'stylua' },
     -- Conform will run multiple formatters sequentially
-    python = { 'isort' },
+    python = { 'pylsp' },
     -- You can customize some of the format options for the filetype (:help conform.format)
     -- Conform will run the first available formatter
   },
