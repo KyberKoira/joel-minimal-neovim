@@ -20,8 +20,6 @@ vim.keymap.set({ "n" }, "<leader>t<left>", ":tabnext -<CR>")
 -- Get That Desert Camo
 vim.cmd("colorscheme desert")
 
--- Clear all autocommands, so if that there is a reload of this, they wondt be duplicated
--- vim.api.nvim_clear_autocmds({})
 
 -- DoubleBraces Cool {}
 require("mini.pairs").setup()
@@ -96,84 +94,12 @@ require("gitsigns").setup({
 	},
 })
 
--- Formatteri
--- require("conform").setup({
--- 	formatters_by_ft = {
--- 		lua = { "stylua" },
--- 		python = { "pylsp" },
--- 	},
---
--- 	format_on_save = {
--- 		lsp_format = "fallback",
--- 		timeout_ms = 500,
--- 	},
--- })
---
--- vim.api.nvim_create_user_command("Format", function(args)
--- 	local range = nil
--- 	if args.count ~= -1 then
--- 		local end_line = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
--- 		range = {
--- 			start = { args.line1, 0 },
--- 			["end"] = { args.line2, end_line:len() },
--- 		}
--- 	end
--- 	require("conform").format({ async = true, lsp_format = "fallback", range = range })
--- end, { range = true })
---
--- vim.keymap.set("n", "<leader>ff", "<cmd>Format<CR>", { noremap = true, silent = true })
-
--- Linter
-require("lint").linters_by_ft = {
-	lua = { "luacheck" },
-}
-
 vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "InsertLeave" }, {
 	callback = function()
 		-- try_lint without arguments runs the linters defined in `linters_by_ft`
 		-- for the current filetype
 		require("lint").try_lint()
 	end,
-})
-
--- TreeSitter for highlights. Can do folding and indents too
-package.path = "Users/401725/.config/nvim/pack/treesitter/start/treesitter/lua/?.lua;" .. package.path
-require("nvim-treesitter").setup({
-	-- A list of parser names, or "all" (the listed parsers MUST always be installed)
-	ensure_installed = { "c", "cpp", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline" },
-
-	-- Install parsers synchronously (only applied to `ensure_installed`)
-	sync_install = false,
-
-	-- Automatically install missing parsers when entering buffer
-	-- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-	auto_install = false,
-
-	-- List of parsers to ignore installing (or "all")
-	ignore_install = { "javascript" },
-
-	---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
-	-- parser_install_dir = "/some/path/to/store/parsers",
-	-- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
-
-	highlight = {
-		enable = false,
-
-		-- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
-		disable = function(lang, buf)
-			local max_filesize = 100 * 1024 -- 100 KB
-			local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-			if ok and stats and stats.size > max_filesize then
-				return true
-			end
-		end,
-
-		-- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-		-- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-		-- Using this option may slow down your editor, and you may see some duplicate highlights.
-		-- Instead of true it can also be a list of languages
-		additional_vim_regex_highlighting = false,
-	},
 })
 
 -- which-key
@@ -229,6 +155,7 @@ require("mini.animate").setup()
 require("lspconfig").lua_ls.setup({}) -- TODO: load if third party installed
 require("lspconfig").pylsp.setup({})
 require("lspconfig").clangd.setup({})
+
 vim.api.nvim_create_autocmd('FileType', {
 	desc = 'Choose right LSP for filetype',
 	callback = function(opts)
@@ -245,7 +172,7 @@ vim.api.nvim_create_autocmd('FileType', {
 					vim.keymap.set("n", "<leader>gi", "<cmd>lua =vim.lsp.buf.implementation()<CR>", opts_cmd)
 				end
 
-				if client.supports_method("textDocument/implementation") then
+				if client.supports_method("textDocument/definition") then
 					vim.keymap.set("n", "<leader>gd", "<cmd>lua =vim.lsp.buf.definition()<CR>", opts_cmd)
 				end
 
@@ -253,10 +180,9 @@ vim.api.nvim_create_autocmd('FileType', {
 					vim.keymap.set("n", "<leader>gr", "<cmd>lua =vim.lsp.buf.references()<CR>", opts_cmd)
 				end
 
-				if client.supports_method("textDocument/implementation") then
-					vim.keymap.set("n", "[d", "<cmd>lua =vim.diagnostic.goto_prev()<CR>", opts_cmd)
-					vim.keymap.set("n", "]d", "<cmd>lua =vim.diagnostic.goto_next()<CR>", opts_cmd)
-				end
+				vim.keymap.set("n", "[d", "<cmd>lua =vim.diagnostic.goto_prev()<CR>", opts_cmd)
+				vim.keymap.set("n", "]d", "<cmd>lua =vim.diagnostic.goto_next()<CR>", opts_cmd)
+
 				if client.supports_method("textDocument/formatting") then
 					vim.keymap.set("n", "<leader>ff", "<cmd>lua =vim.lsp.buf.format()<CR>", opts_cmd)
 				end
@@ -265,8 +191,6 @@ vim.api.nvim_create_autocmd('FileType', {
 	end,
 })
 
--- vim.keymap.set("n", "<leader>td", "<cmd>lua vim.diagnostic.open_float()<CR>", { noremap = true, silent = true })
--- vim.keymap.set("n", "<leader>ts", "<cmd>lua vim.diagnostic.show()<CR>", { noremap = true, silent = true })
 vim.diagnostic.config({
 	virtual_text = true,
 	signs = true,
