@@ -1,5 +1,8 @@
 Requirements
 
+to install modules:
+'git submodule update --init --recursive'
+
 - neovim latest
 - lua-language-server
 - lazygit command line tool (optional)
