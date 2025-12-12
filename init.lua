@@ -163,7 +163,7 @@ require("lualine").setup({
 require("mini.animate").setup()
 
 -- LSP
-require("lspconfig").lua_ls.setup({
+vim.lsp.config["lua_ls"] = {
 	on_init = function(client)
 		if client.workspace_folders then
 			local path = client.workspace_folders[1].name
@@ -197,12 +197,12 @@ require("lspconfig").lua_ls.setup({
 	settings = {
 		Lua = {}
 	}
-})
+}
 
 -- Python
-require("lspconfig").pylsp.setup({})
-require("lspconfig").pyright.setup({}) -- pyproject.toml
-require("lspconfig").ruff.setup {-- pyproject.toml prio
+vim.lsp.config["pylsp"] = {}
+vim.lsp.config["pyright"] = {} -- pyproject.toml
+vim.lsp.config["ruff"] = {-- pyproject.toml prio
 	init_options = {
 		settings = {
 			configurationPreference = "filesystemFirst"
@@ -221,18 +221,18 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 })
 
 -- C/C++
-require("lspconfig").clangd.setup({})
+vim.lsp.config["clangd"] = {}
 vim.keymap.set("n", "<leader>sF", "<cmd>ClangdSwitchSourceHeader<CR>", { noremap = true, silent = true })
 
-require("lspconfig").cmake.setup {}
+vim.lsp.config["cmake"] = {}
 
 -- Where is WebDev?
 
 -- PHP
-require("lspconfig").phpactor.setup {}
+vim.lsp.config["phpactor"] = {}
 
 -- Docker
-require("lspconfig").dockerls.setup {
+vim.lsp.config["dockerls"] = {
 	settings = {
 		docker = {
 			languageserver = {
