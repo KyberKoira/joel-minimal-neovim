@@ -36,6 +36,23 @@ vim.keymap.set({ "n" }, "<leader>tc", ":tabclose<CR>")
 -- for exiting terminal
 vim.keymap.set({ "t" }, "<Esc>", "<C-\\><C-n>")
 
+-- search
+function project_find(cmd_args)
+	vim.cmd("cexpr system('ag " .. cmd_args.args .. " $(git rev-parse --show-toplevel) | head -c -1')")
+	vim.cmd('cope')
+	vim.keymap.set("n",
+		"<C-down>",
+		"<cmd>cnext<CR>",
+		{ noremap = true, silent = true })
+	vim.keymap.set("n",
+		"<C-up>",
+		"<cmd>cprevious<CR>",
+		{ noremap = true, silent = true })
+end
+vim.api.nvim_create_user_command('ProjectFind', project_find, { nargs = 1 })
+
+vim.keymap.set({"n"},"<leader>f",":ProjectFind ")
+
 function term_open()
 	vim.cmd("terminal")
 	vim.cmd("startinsert!")
