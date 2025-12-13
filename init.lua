@@ -24,6 +24,9 @@ function tablelength(T)
   return count
 end
 
+-- custom exit
+vim.keymap.set({ "n", "o", "x" }, "<leader><esc>", ":wall|qa!<CR>")
+
 -- tab stuff
 vim.keymap.set({ "n" }, "<leader>tn", ":tabnew<CR>")
 vim.keymap.set({ "n" }, "<TAB>", ":tabn<CR>")
