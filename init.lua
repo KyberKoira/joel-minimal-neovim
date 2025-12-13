@@ -16,10 +16,21 @@ vim.cmd("set noswapfile")
 vim.g.mapleader = ","
 vim.g.maplocalleader = ","
 
--- Tab Bindings
+-- utils
+
+function tablelength(T)
+  local count = 0
+  for _ in pairs(T) do count = count + 1 end
+  return count
+end
+
+-- tab stuff
 vim.keymap.set({ "n" }, "<leader>tn", ":tabnew<CR>")
-vim.keymap.set({ "n" }, "<leader>t<right>", ":tabnext +<CR>")
-vim.keymap.set({ "n" }, "<leader>t<left>", ":tabnext -<CR>")
+vim.keymap.set({ "n" }, "<TAB>", ":tabn<CR>")
+vim.keymap.set({ "n" }, "<S-TAB>", ":tabp<CR>")
+vim.keymap.set({ "n" }, "<leader>tc", ":tabclose<CR>")
+
+-- for exiting terminal
 vim.keymap.set({ "t" }, "<Esc>", "<C-\\><C-n>")
 
 -- Get That Desert Camo
@@ -304,8 +315,26 @@ vim.diagnostic.config({
 	},
 })
 
--- File Tree
-require("nvim-tree").setup()
+-- file tree
+local function my_on_attach(bufnr)
+    local api = require "nvim-tree.api"
+
+    local function opts(desc)
+      return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+    end
+
+    -- default mappings
+    api.config.mappings.default_on_attach(bufnr)
+
+    -- custom mappings
+    vim.keymap.set("n", "<C-o>", api.tree.change_root_to_node,        opts("Up"))
+    vim.keymap.set("n", "?",     api.tree.toggle_help,                  opts("Help"))
+  end
+
+  require("nvim-tree").setup(
+	  {on_attach = my_on_attach}
+)
+
 vim.keymap.set("n", "<leader>ot", "<cmd>NvimTreeToggle<CR>", { noremap = true, silent = true })
 
 -- Terminal
