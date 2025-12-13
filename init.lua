@@ -36,6 +36,13 @@ vim.keymap.set({ "n" }, "<leader>tc", ":tabclose<CR>")
 -- for exiting terminal
 vim.keymap.set({ "t" }, "<Esc>", "<C-\\><C-n>")
 
+function term_open()
+	vim.cmd("terminal")
+	vim.cmd("startinsert!")
+end
+
+vim.keymap.set({ "n" }, "<leader>tt", term_open)
+
 -- Get That Desert Camo
 vim.cmd("colorscheme badwolf")
 
