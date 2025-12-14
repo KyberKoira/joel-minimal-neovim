@@ -36,23 +36,34 @@ vim.keymap.set({ "n" }, "<leader>tc", ":tabclose<CR>")
 -- for exiting terminal
 vim.keymap.set({ "t" }, "<Esc>", "<C-\\><C-n>")
 
--- search
+-- for cope navigation
+vim.keymap.set("n",
+	"<C-down>",
+	"<cmd>cnext<CR>",
+	{ noremap = true, silent = true })
+vim.keymap.set("n",
+	"<C-up>",
+	"<cmd>cprevious<CR>",
+	{ noremap = true, silent = true })
+
+-- project search
 function project_find(cmd_args)
 	vim.cmd("cexpr system('ag " .. cmd_args.args .. " $(git rev-parse --show-toplevel) | head -c -1')")
 	vim.cmd('cope')
-	vim.keymap.set("n",
-		"<C-down>",
-		"<cmd>cnext<CR>",
-		{ noremap = true, silent = true })
-	vim.keymap.set("n",
-		"<C-up>",
-		"<cmd>cprevious<CR>",
-		{ noremap = true, silent = true })
 end
 vim.api.nvim_create_user_command('ProjectFind', project_find, { nargs = 1 })
+vim.keymap.set({"n"},"<leader>ff",":ProjectFind ")
 
-vim.keymap.set({"n"},"<leader>f",":ProjectFind ")
+-- filename search
+function file_find(cmd_args)
+	local command_str = [[ag -g ]] .. cmd_args.args .. [[ | awk '{ print length, $0 }' | sort -n | cut -d' ' -f2- | awk '{ print $0 \":1:\"} file' | awk -v mypre=$(pwd) '{print mypre $0} file']]
+	vim.cmd([[cexpr system("]] .. command_str .. [[")]])
+	vim.cmd('cope')
+end
+vim.api.nvim_create_user_command('FileFind', file_find, { nargs = 1 })
+vim.keymap.set({"n"},"<leader>fd",":FileFind ")
 
+-- fast terminal
 function term_open()
 	vim.cmd("terminal")
 	vim.cmd("startinsert!")
@@ -62,9 +73,6 @@ vim.keymap.set({ "n" }, "<leader>tt", term_open)
 
 -- Get That Desert Camo
 vim.cmd("colorscheme badwolf")
-
--- PROJECT FIND USING ag
-require("joelfind").setup()
 
 -- Formatteri takaisin
 require("conform").setup({
