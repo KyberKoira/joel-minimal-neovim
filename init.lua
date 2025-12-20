@@ -52,7 +52,7 @@ function project_find(cmd_args)
 	vim.cmd('cope')
 end
 vim.api.nvim_create_user_command('ProjectFind', project_find, { nargs = 1 })
-vim.keymap.set({"n"},"<leader>ff",":ProjectFind ")
+vim.keymap.set({"n"},"<leader>sp",":ProjectFind ")
 
 -- filename search
 function file_find(cmd_args)
@@ -61,7 +61,7 @@ function file_find(cmd_args)
 	vim.cmd('cope')
 end
 vim.api.nvim_create_user_command('FileFind', file_find, { nargs = 1 })
-vim.keymap.set({"n"},"<leader>fd",":FileFind ")
+vim.keymap.set({"n"},"<leader>sf",":FileFind ")
 
 -- fast terminal
 function term_open()
